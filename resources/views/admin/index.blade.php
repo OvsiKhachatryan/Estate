@@ -34,7 +34,7 @@
                             <td class="text-center">{{ $item->quarter }}</td>
                             <td class="text-center">{{ $item->name }}</td>
                             <td class="py-1 text-center">
-                                <img src="{{storage_path().'/app/public/Image/'. $item->company_logo}}" alt="logo">
+                                <img src="{{storage_path().'/app/uploads/properties'. $item->company_logo}}" alt="logo">
                             </td>
                             <td class="text-center"><span class="d-block wrap-text">{{ $item->about }}</span></td>
                             <td class="text-center">{{ $item->starting_price }}</td>

@@ -20,7 +20,7 @@ class PropertyService
         $property = new Property;
 
         $filename = Storage::putFile(
-            'public/Image',
+            'uploads/properties',
             $request->file('company_logo'));
 
         $filename = basename($filename);
@@ -34,7 +34,7 @@ class PropertyService
         $edit_property = Property::find($request->property);
 
         if ($request->company_logo) {
-            $path = storage_path('app/public/Image');
+            $path = storage_path('app/uploads/properties');
             if ($edit_property->company_logo != '' && $edit_property->company_logo != null) {
                 $file_old = $path . '/' . $edit_property->company_logo;
                 unlink($file_old);
