@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -11,3 +10,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//
+Route::get('/', [\App\Http\Controllers\Admin\PropertyController::class, 'index']);
+Route::resource('property', App\Http\Controllers\Admin\PropertyController::class);

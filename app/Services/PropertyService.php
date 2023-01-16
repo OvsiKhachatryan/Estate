@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\Admin\Property\PropertyCreateRequest;
 use App\Http\Requests\Admin\Property\PropertyEditRequest;
 use App\Models\Property;
+use Illuminate\Support\Facades\Storage;
 
 
 class PropertyService
@@ -18,20 +19,14 @@ class PropertyService
     {
         $property = new Property;
 
-        $file = $request->company_logo;
-        $filename = date('YmdHi') . "." . $file->extension();
-        $file->move(public_path('assets/Image'), $filename);
-        $property->company_logo = $filename;
+        $filename = Storage::putFile(
+            'public/Image',
+            $request->file('company_logo'));
 
-        $property->fill(['property_type' => $request->property_type,
-            'quarter' => $request->quarter,
-            'name' => $request->name,
-            'about' => $request->about,
-            'starting_price' => $request->starting_price,
-            'price_per_m2' => $request->price_per_m2,
-            'an_initial_fee' => $request->an_initial_fee,
-            'company_logo' => $filename
-        ]);
+        $filename = basename($filename);
+        $arr = $request->all();
+        $arr['company_logo'] = $filename;
+        $property->fill($arr)->save();
     }
 
     public function edit(PropertyEditRequest $request)
@@ -39,29 +34,24 @@ class PropertyService
         $edit_property = Property::find($request->property);
 
         if ($request->company_logo) {
-            $path = public_path('assets/Image');
+            $path = storage_path('app/public/Image');
             if ($edit_property->company_logo != '' && $edit_property->company_logo != null) {
                 $file_old = $path . '/' . $edit_property->company_logo;
                 unlink($file_old);
             }
+            $filename = Storage::putFile(
+                'public/Image',
+                $request->file('company_logo'));
 
-            $filename = date('YmdHi') . "." . $request->company_logo->extension();
-            $request->company_logo->move($path, $filename);
+            $filename = basename($filename);
+            $arr = $request->all();
+            $arr['company_logo'] = $filename;
         }
 
         if (!$request->company_logo) {
-            $filename = $edit_property->company_logo;
+            $arr['company_logo'] = $edit_property->company_logo;
         }
-
-        $edit_property->update(['property_type' => $request->property_type,
-            'quarter' => $request->quarter,
-            'name' => $request->name,
-            'about' => $request->about,
-            'starting_price' => $request->starting_price,
-            'price_per_m2' => $request->price_per_m2,
-            'an_initial_fee' => $request->an_initial_fee,
-            'company_logo' => $filename
-        ]);
+        $edit_property->update($arr);
     }
 
     public function getById($id)
