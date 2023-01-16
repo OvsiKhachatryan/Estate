@@ -1,8 +1,5 @@
 @extends('admin.layouts.layout')
 @section('content')
-    @if(session('message'))
-        <p class="text-center mt-3 text-success">{{session('message')}}</p>
-    @endif
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -49,6 +46,14 @@
                         <label for="add_about" class="ps-3">About</label>
                         <textarea  name="about" class="form-control" id="add_about" rows="4">{{$property->about}}</textarea>
                     </div>
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div style="color: red;">{{$error}}</div>
+                        @endforeach
+                    @endif
+                    @if(session('message'))
+                        <p class="text-center mt-3 text-success">{{session('message')}}</p>
+                    @endif
                     <button type="submit" class="btn btn-gradient-primary me-2">Edit</button>
                 </form>
             </div>

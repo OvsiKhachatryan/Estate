@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PropertyCreateRequest;
-use App\Http\Requests\PropertyEditRequest;
+use App\Http\Requests\Admin\Property\PropertyCreateRequest;
+use App\Http\Requests\Admin\Property\PropertyEditRequest;
 use Illuminate\Http\Request;
 use App\Services\PropertyService;
 
