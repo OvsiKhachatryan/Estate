@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Http\Requests\PropertyCreateRequest;
+use App\Http\Requests\PropertyEditRequest;
 use App\Models\Property;
+
 
 class PropertyService
 {
@@ -11,19 +14,19 @@ class PropertyService
         return Property::all();
     }
 
-    public function create($property_type, $quarter, $name, $about, $starting_price, $price_per_m2, $an_initial_fee, $company_logo)
+    public function create(PropertyCreateRequest $request)
     {
         $property = new Property;
-        $property->property_type = $property_type;
-        $property->quarter = $quarter;
-        $property->name = $name;
-        $property->about = $about;
-        $property->starting_price = $starting_price;
-        $property->price_per_m2 = $price_per_m2;
-        $property->an_initial_fee = $an_initial_fee;
+        $property->property_type = $request->property_type;
+        $property->quarter = $request->quarter;
+        $property->name = $request->name;
+        $property->about = $request->about;
+        $property->starting_price = $request->starting_price;
+        $property->price_per_m2 = $request->price_per_m2;
+        $property->an_initial_fee = $request->an_initial_fee;
 
-        if ($company_logo) {
-            $file = $company_logo;
+        if ($request->company_logo) {
+            $file = $request->company_logo;
             $filename = date('YmdHi') . "." . $file->extension();
             $file->move(public_path('public/Image'), $filename);
             $property->company_logo = $filename;
@@ -31,32 +34,32 @@ class PropertyService
         $property->save();
     }
 
-    public function edit($id, $property_type, $quarter, $name, $about, $starting_price, $price_per_m2, $an_initial_fee, $company_logo)
+    public function edit(PropertyEditRequest $request)
     {
-        $edit_property = Property::find($id);
+        $edit_property = Property::find($request->property);
 
-        if ($company_logo) {
+        if ($request->company_logo) {
             $path = public_path('public/Image');
             if ($edit_property->company_logo != '' && $edit_property->company_logo != null) {
                 $file_old = $path . '/' . $edit_property->company_logo;
                 unlink($file_old);
             }
 
-            $filename = date('YmdHi') . "." . $company_logo->extension();
-            $company_logo->move($path, $filename);
+            $filename = date('YmdHi') . "." . $request->company_logo->extension();
+            $request->company_logo->move($path, $filename);
         }
 
-        if (!$company_logo) {
+        if (!$request->company_logo) {
             $filename = $edit_property->company_logo;
         }
 
-        $edit_property->update(['property_type' => $property_type,
-            'quarter' => $quarter,
-            'name' => $name,
-            'about' => $about,
-            'starting_price' => $starting_price,
-            'price_per_m2' => $price_per_m2,
-            'an_initial_fee' => $an_initial_fee,
+        $edit_property->update(['property_type' => $request->property_type,
+            'quarter' => $request->quarter,
+            'name' => $request->name,
+            'about' => $request->about,
+            'starting_price' => $request->starting_price,
+            'price_per_m2' => $request->price_per_m2,
+            'an_initial_fee' => $request->an_initial_fee,
             'company_logo' => $filename
         ]);
     }

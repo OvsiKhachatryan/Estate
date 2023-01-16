@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PropertyCreateRequest;
+use App\Http\Requests\PropertyEditRequest;
 use Illuminate\Http\Request;
 use App\Services\PropertyService;
+
 
 class PropertyController extends Controller
 {
@@ -42,18 +45,9 @@ class PropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PropertyCreateRequest $request)
     {
-        $this->propertyService->create(
-            $request->property_type,
-            $request->quarter,
-            $request->name,
-            $request->about,
-            $request->starting_price,
-            $request->price_per_m2,
-            $request->an_initial_fee,
-            $request->company_logo
-        );
+        $this->propertyService->create($request);
         return redirect()->route('property.create')->with('message', 'The property successfully added');
     }
 
@@ -87,10 +81,9 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request)
+    public function update(PropertyEditRequest $request)
     {
-        $this->propertyService->edit($request->property, $request->property_type, $request->quarter, $request->name, $request->about,
-                                     $request->starting_price, $request->price_per_m2, $request->an_initial_fee, $request->company_logo);
+        $this->propertyService->edit($request);
 
         return redirect()->route('property.edit', $request->property)->with('message', 'The property successfully updated');
     }
