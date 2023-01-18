@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Property\PropertyCreateRequest;
 use App\Http\Requests\Admin\Property\PropertyEditRequest;
 use Illuminate\Http\Request;
 use App\Services\PropertyService;
+use Illuminate\Support\Facades\Storage;
 
 
 class PropertyController extends Controller
