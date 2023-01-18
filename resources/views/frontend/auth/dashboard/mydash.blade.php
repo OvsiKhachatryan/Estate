@@ -34,7 +34,7 @@
                                           title="online"></span>
                                     <img src="{{asset('assets/frontend/images/faces/male/25.jpg')}}'" class="brround" alt="user">
                                 </div>
-                                <a href="userprofile.html" class="text-dark"><h4 class="mt-3 mb-0 font-weight-semibold">
+                                <a href="{{route('user_profile')}}" class="text-dark"><h4 class="mt-3 mb-0 font-weight-semibold">
                                         Robert McLean</h4></a>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                                     collecting item
                                 </li>
                                 <li class="ms-5 mb-0">
-                                    <a href="tips.html"> View more..</a>
+                                    <a href="{{route('tip')}}"> View more..</a>
                                 </li>
                             </ul>
                         </div>

@@ -117,7 +117,7 @@
                                     <i class="fa fa-check text-success" aria-hidden="true"></i> Pay only after collecting item
                                 </li>
                                 <li class="ms-5 mb-0">
-                                    <a href="tips.html"> View more..</a>
+                                    <a href="{{route('tip')}}"> View more..</a>
                                 </li>
                             </ul>
                         </div>
